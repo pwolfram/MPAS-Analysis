@@ -1,0 +1,7 @@
+recursive-include mpas_analysis *.py
+
+include setup.py
+include README.md
+include LICENSE.txt
+include MANIFEST.in
+include requirements.txt

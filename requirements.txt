@@ -1,0 +1,11 @@
+numpy
+scipy
+pandas
+matplotlib
+cartopy
+pytest
+netCDF4
+xarray
+dask
+bottleneck
+lxml
