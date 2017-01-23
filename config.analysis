@@ -3,7 +3,7 @@
 casename = 20160805v0atm.A_WCYCL1850_v0atm.ne30_oEC.edison.alpha7_00
 native_res = ne30
 short_term_archive = 0
-ref_casename_v0 = B1850C5_ne30_v0.4
+ref_casename_v0 = None
 
 [input]
 # names of namelist and streams files
@@ -16,9 +16,9 @@ seaice_streams_filename = streams.cice
 # paths to simulation and observational datasets
 archive_dir = /scratch1/scratchdirs/petercal/ACME_simulations
 archive_dir_ocn = /scratch1/scratchdirs/petercal/ACME_simulations/20160805v0atm.A_WCYCL1850_v0atm.ne30_oEC.edison.alpha7_00/run
-scratch_dir = /global/project/projectdirs/acme/xylar/20160805v0atm.A_WCYCL1850_v0atm.ne30_oEC.edison.alpha7_00.test.pp
-plots_dir = /global/project/projectdirs/acme/xylar/coupled_diagnostics_20160805v0atm.A_WCYCL1850_v0atm.ne30_oEC.edison.alpha7_00-20160520.A_WCYCL1850.ne30_oEC.edison.alpha6_01
-log_dir = /global/project/projectdirs/acme/xylar/coupled_diagnostics_20160805v0atm.A_WCYCL1850_v0atm.ne30_oEC.edison.alpha7_00-20160520.A_WCYCL1850.ne30_oEC.edison.alpha6_01.logs
+scratch_dir = ./scratch
+plots_dir = ./plots
+log_dir = ./log
 obs_ocndir = /global/project/projectdirs/acme/observations/Ocean
 obs_sstdir = /global/project/projectdirs/acme/observations/Ocean/SST
 obs_sssdir = /global/project/projectdirs/acme/observations/Ocean/SSS
@@ -53,10 +53,10 @@ timeseries_yr1 = 1
 timeseries_yr2 = 9999
 
 [ohc_timeseries]
-generate = 1
+generate = 0
 
 [sst_timeseries]
-generate = 1
+generate = 0
 
 [nino34_timeseries]
 generate = 0
@@ -68,18 +68,21 @@ generate = 0
 generate = 0
 
 [sst_modelvsobs]
-generate = 1
+generate = 0
 
 [sss_modelvsobs]
-generate = 1
+generate = 0
 
 [mld_modelvsobs]
-generate = 1
+generate = 0
 
 [seaice_timeseries]
-generate = 1
+generate = 0
 
 [seaice_modelvsobs]
+generate = 0
+
+[moc_postprocess]
 generate = 1
 
 [ohc_timeseries]
@@ -130,6 +133,18 @@ compare_with_obs = True
 # Number of points over which to compute moving average (e.g., for monthly
 # output, N_movavg=12 corresponds to a 12-month moving average window)
 N_movavg = 12
+
+
+[moc_postprocess]
+filename  = ../mpaso.hist.am.timeSeriesStats.yr100-119.avg.nc
+filenamemesh = ../mpaso.rst.0002-01-01_00000.nc
+filenamemask = ../EC60to30v3_SingleRegionAtlanticWTransportTransects_masks.nc
+timeIndex = 0
+horVelName = time_avg_normalVelocity
+vertVelName = time_avg_vertVelocityTop
+contourLines = np.arange(-8,20.1,2)
+# This is specific to Atlantic MOC:
+mocLat = np.arange(-34.5,70.1,0.5)
 
 [seaice_timeseries]
 ## compare to output from another model run?
