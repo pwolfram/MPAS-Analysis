@@ -565,25 +565,25 @@ def process_chunking(ds, chunking):  # {{{
     04/06/2017
     """
 
-    if isinstance(chunking, int):
-        chunks = {}
-        for name in ds.chunks.keys():
-            chunklim = np.asarray(ds.chunks[name]).max()
-            chunks[name] = np.minimum(chunking, chunklim)
+    #if isinstance(chunking, int):
+    #    chunks = {}
+    #    for name in ds.chunks.keys():
+    #        chunklim = np.asarray(ds.chunks[name]).max()
+    #        chunks[name] = np.minimum(chunking, chunklim)
 
-        ds = ds.chunk(chunks)
+    #    ds = ds.chunk(chunks)
 
-    elif isinstance(chunking, dict):
-        ds = ds.chunk(chunking)
+    #elif isinstance(chunking, dict):
+    #    ds = ds.chunk(chunking)
 
-    # if chunking is None don't do any chunking
-    elif chunking is None:
-        pass
+    ## if chunking is None don't do any chunking
+    #elif chunking is None:
+    #    pass
 
-    else:
-        raise ValueError(
-                'Chunking parameter choice is not understood '
-                'for {} of type {}\n'.format(chunking, type(chunking)))
+    #else:
+    #    raise ValueError(
+    #            'Chunking parameter choice is not understood '
+    #            'for {} of type {}\n'.format(chunking, type(chunking)))
 
     return ds  # }}}
 

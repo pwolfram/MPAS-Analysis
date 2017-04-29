@@ -717,25 +717,25 @@ def _compute_masked_mean(ds, maskVaries):  # {{{
 
     if maskVaries:
         dsWeightedSum = (ds * ds.daysInMonth).sum(dim='Time', keep_attrs=True)
-        dsWeightedSum.compute()
+        #dsWeightedSum.compute()
 
         weights = ds_to_weights(ds)
-        weights.compute()
+        #weights.compute()
 
         weightSum = (weights * ds.daysInMonth).sum(dim='Time')
-        weightSum.compute()
+        #weightSum.compute()
 
         timeMean = dsWeightedSum / weightSum.where(weightSum > 0.)
-        timeMean.compute()
+        #timeMean.compute()
     else:
         days = ds.daysInMonth.sum(dim='Time')
-        days.compute()
+        #days.compute()
 
         dsWeightedSum = (ds * ds.daysInMonth).sum(dim='Time', keep_attrs=True)
-        dsWeightedSum.compute()
+        #dsWeightedSum.compute()
 
         timeMean = dsWeightedSum / days.where(days > 0.)
-        timeMean.compute()
+        #timeMean.compute()
 
     return timeMean  # }}}
 
