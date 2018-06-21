@@ -1646,7 +1646,6 @@ variables = ['PO4', 'NO3', 'SiO3', 'CO2_gas_flux', 'pH_3D', 'DIC', 'ALK', 'O2']
 
 # Times for comparison times (Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct,
 # Nov, Dec, JFM, AMJ, JAS, OND, ANN)
-# seasons =  ['JFM', 'JAS', 'ANN']
 seasons = ['ANN', 'JFM', 'JAS']
 
 # the first year over which to average climatalogies
@@ -1659,82 +1658,90 @@ endYear = 20
 comparisonGrids = ['latlon', 'antarctic']
 
 [climatologyMapBGC_PO4]
-colormapNameResult = YlOrRd 
-colormapNameDifference = RdBu 
+# Colormap for climatology
+colormapNameResult = dense 
+# Colormap for clim - obs difference
+colormapNameDifference = balance 
+# linear vs. log scaling for climatology
 normTypeResult = linear
+# Colorbar bounds for climatology
 normArgsResult = {'vmin': 0, 'vmax': 2.5}
+# linear vs. log scaling for obs
 normTypeDifference = linear
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5}
+# Colorbar bounds for obs
+normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
+# BGC property units
 units = 'mmol m$^{-3}$'
+# Prefix to variable name in MPAS-O output
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
 
 [climatologyMapBGC_NO3]
-colormapNameResult = PuBuGn 
-colormapNameDifference = RdBu 
+colormapNameResult = dense 
+colormapNameDifference = balance 
 normTypeResult = linear
 normArgsResult = {'vmin': 0, 'vmax': 35.0}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5}
+normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
 units = 'mmol m$^{-3}$'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
 
 [climatologyMapBGC_SiO3]
-colormapNameResult = YlGnBu 
-colormapNameDifference = RdBu
+colormapNameResult = dense 
+colormapNameDifference = balance 
 normTypeResult = linear
 normArgsResult = {'vmin': 0, 'vmax': 80}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5}
+normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
 units = 'mmol m$^{-3}$'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
 
 [climatologyMapBGC_CO2_gas_flux]
-colormapNameResult = RdBu_r
-colormapNameDifference = RdBu
+colormapNameResult = delta 
+colormapNameDifference = balance 
 normTypeResult = linear
 normArgsResult = {'vmin': -0.0001, 'vmax': 0.0001}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5}
+normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
 units = 'mmol C m$^{-3}$ m s$^{-1}$'
 filePrefix = 'timeMonthly_avg_'
 
 [climatologyMapBGC_O2]
-colormapNameResult = cubehelix_r 
-colormapNameDifference = RdBu
+colormapNameResult = matter 
+colormapNameDifference = balance 
 normTypeResult = linear
 normArgsResult = {'vmin': 200, 'vmax': 400}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5}
+normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
 units = 'mmol m$^{-3}$'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
 
 [climatologyMapBGC_pH_3D]
 colormapNameResult = PuBuGn_r
-colormapNameDifference = RdBu
+colormapNameDifference = balance 
 normTypeResult = linear
 normArgsResult = {'vmin': 8, 'vmax': 8.2}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5}
+normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
 units = ''
 filePrefix = 'timeMonthly_avg_ecosys_diag_'
 
 [climatologyMapBGC_DIC]
 colormapNameResult = YlGnBu 
-colormapNameDifference = RdBu
+colormapNameDifference = balance 
 normTypeResult = linear
 normArgsResult = {'vmin': 1900, 'vmax': 2300}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5}
+normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
 units = 'mmol m$^{-3}$'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
 
 [climatologyMapBGC_ALK]
 colormapNameResult = PuBuGn 
-colormapNameDifference = RdBu
+colormapNameDifference = balance 
 normTypeResult = linear
 normArgsResult = {'vmin': 2150, 'vmax': 2450}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5}
+normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # need to set
 units = 'meq m$^{-3}$'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
 
