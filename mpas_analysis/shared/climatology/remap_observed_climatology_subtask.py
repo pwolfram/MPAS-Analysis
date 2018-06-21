@@ -53,7 +53,7 @@ class RemapObservedClimatologySubtask(AnalysisTask):  # {{{
 
     def __init__(self, parentTask, seasons, fileName, outFilePrefix,
                  comparisonGridNames=['latlon'],
-                 subtaskName='remapObservations'):
+                 subtaskName='remapObservations', computeClimatology=False):
         # {{{
         '''
         Construct one analysis subtask for each plot (i.e. each season and
@@ -80,6 +80,9 @@ class RemapObservedClimatologySubtask(AnalysisTask):  # {{{
 
         subtaskName : str, optional
             The name of the subtask
+
+        computeClimatology : boolean, optional
+            Whether or not to compute climatology of observational data.
         '''
         # Authors
         # -------
@@ -89,6 +92,7 @@ class RemapObservedClimatologySubtask(AnalysisTask):  # {{{
         self.fileName = fileName
         self.outFilePrefix = outFilePrefix
         self.comparisonGridNames = comparisonGridNames
+        self.computeClimatology = computeClimatology
 
         config = parentTask.config
         taskName = parentTask.taskName
