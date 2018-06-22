@@ -1642,11 +1642,13 @@ contourLevelsDifference = numpy.linspace(-0.2, 0.2, 9)
 # SiO3 : 'SiO3'
 # CO2 flux : 'CO2_gas_flux'
 # O2 : 'O2'
-variables = ['PO4', 'NO3', 'SiO3', 'CO2_gas_flux', 'pH_3D', 'DIC', 'ALK', 'O2']
+#variables = ['PO4', 'NO3', 'SiO3', 'CO2_gas_flux', 'pH_3D', 'DIC', 'ALK', 'O2']
+variables = ['NO3']
 
 # Times for comparison times (Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct,
 # Nov, Dec, JFM, AMJ, JAS, OND, ANN)
-seasons = ['ANN', 'JFM', 'JAS']
+# seasons = ['ANN', 'JFM', 'JAS']
+seasons = ['ANN']
 
 # the first year over which to average climatalogies
 startYear = 11
@@ -1654,8 +1656,8 @@ startYear = 11
 endYear = 20
 
 # comparison grid(s) ('latlon', 'antarctic') on which to plot analysis
-#comparisonGrids = ['latlon', 'antarctic']
-comparisonGrids = ['latlon', 'antarctic']
+# comparisonGrids = ['latlon', 'antarctic']
+comparisonGrids = ['latlon']
 
 [climatologyMapBGC_PO4]
 # Colormap for climatology

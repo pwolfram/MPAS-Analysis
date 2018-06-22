@@ -60,7 +60,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
                 componentName='ocean',
                 tags=['climatology', 'horizontalMap', 'BGC', afieldName])
         
-        # CO2 flux has no verticle levels, throws error if you try to select
+        # CO2 flux has no vertical levels, throws error if you try to select
         # any. Can add any other flux-like variables to this list.
         if afieldName not in ['CO2_gas_flux']:
             iselValues = {'nVertLevels': 0}
@@ -101,6 +101,43 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
             comparisonGridNames=comparisonGridNames,
             seasons=seasons,
             iselValues=iselValues)
+        
+        if refConfig is None:
+            # Need to make this more flexible, perhaps config title.
+            refTitleLabel = 'Observations'
+
+            observationsDirectory = build_config_full_path(
+                config, 'oceanObservations',
+                '{}Subdirectory'.format(afieldName))
+
+            # Need to make this general
+            obsFileName = \
+                "{}/no3_1.0x1.0degree_ANN.nc" .format(
+                    observationsDirectory)
+            
+            # Could pass as 'fieldName.lower()'
+            refFieldName = 'NO3'
+            outFileLabel = 'no3WOA'
+            # Make general
+            galleryName = 'Observations: WOA' 
+
+            remapObservationsSubtask = RemapObservedBGCClimatology(
+                    parentTask=self, seasons=seasons, fileName=obsFileName,
+                    outFilePrefix=refFieldName,
+                    comparisonGridNames=comparisonGridNames)
+            self.add_subtask(remapObservationsSubtask)
+            diffTitleLabel = 'Model - Observations'
+        else:
+            remapObservationsSubtask = None
+            refRunName = refConfig.get('runs', 'mainRunName')
+            galleryName = None
+            refTitleLabel = 'Ref: {}'.format(refRunName)
+
+            refFieldName = ampasFieldName
+            # Change this
+            outFileLabel = 'no3'
+            diffTitleLabel = 'Main - Reference'
+
 
         for comparisonGridName in comparisonGridNames:
             for season in seasons:
@@ -108,7 +145,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
                 subtask = PlotClimatologyMapSubtask(self, season,
                                                     comparisonGridName,
                                                     remapClimatologySubtask,
-                                                    None,
+                                                    remapObservationsSubtask,
                                                     refConfig)
 
                 subtask.set_plot_info(
@@ -127,6 +164,64 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
 
                 self.add_subtask(subtask)
         # }}}
+    # }}}
+
+class RemapObservedBGCClimatology(RemapObservedClimatologySubtask): # {{{
+    """
+    A subtask for reading and remapping BGC observations
+    """
+    # Authors
+    # -------
+    # Xylar Asay-Davis, Riley X. Brady
+
+    def get_observation_descriptor(self, fileName): # {{{
+        '''
+        get a MeshDescriptor for the observation grid
+
+        Parameters
+        ----------
+        fileName : str
+            observation file name describing the source grid
+
+        Returns
+        -------
+        obsDescriptor : ``MeshDescriptor``
+            The descriptor for the observation grid
+        '''
+        # Authors
+        # -------
+        # Xylar Asay-Davis, Riley X. Brady
+
+        # create a descriptor of the observation grid using the lat/lon
+        # coordinates
+        obsDescriptor = LatLonGridDescriptor.read(fileName=fileName,
+                                                  latVarName='lat',
+                                                  lonVarName='lon')
+        return obsDescriptor # }}}
+
+    def build_observational_dataset(self, fileName): # {{{
+        '''
+        read in the data sets for observations, and possibly rename some
+        variables and dimensions
+
+        Parameters
+        ----------
+        fileName : str
+            observation file name
+
+        Returns
+        ------
+        dsObs : ``xarray.Dataset``
+            The observational dataset
+        '''
+        # Authors
+        # -------
+        # Xylar Asay-Davis, Riley X. Brady
+    
+        # Obs are pre-processed, so nothing needed to be done here.
+        dsObs = xr.open_dataset(fileName)
+        return dsObs # }}}
+
     # }}}
 
 # vim: foldmethod=marker ai ts=4 sts=4 et sw=4 ft=python
