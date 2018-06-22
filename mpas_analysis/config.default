@@ -267,6 +267,7 @@ argoSubdirectory = ARGO
 schmidtkoSubdirectory = Schmidtko
 woceSubdirectory = WOCE
 no3Subdirectory = BGC/NO3
+co2_gas_fluxSubdirectory = BGC/CO2_gas_flux
 
 # first and last year of SST observational climatology (preferably one of the
 # two ranges given below)
@@ -1648,14 +1649,14 @@ variables = ['PO4', 'NO3', 'SiO3', 'CO2_gas_flux', 'pH_3D', 'DIC', 'ALK', 'O2']
 # Nov, Dec, JFM, AMJ, JAS, OND, ANN)
 seasons = ['ANN', 'JFM', 'JAS']
 
-# the first year over which to average climatalogies
-startYear = 11
+# the first yearover which to average climatalogies
+startYear = 0 
 # the last year over which to average climatalogies
-endYear = 20
+endYear = 10 
 
 # comparison grid(s) ('latlon', 'antarctic') on which to plot analysis
-#comparisonGrids = ['latlon', 'antarctic']
-comparisonGrids = ['latlon', 'antarctic']
+# comparisonGrids = ['latlon', 'antarctic']
+comparisonGrids = ['latlon']
 
 [climatologyMapBGC_PO4]
 # Colormap for climatology
@@ -1674,6 +1675,8 @@ normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
 units = 'mmol m$^{-3}$'
 # Prefix to variable name in MPAS-O output
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
+# Acronym/label for observational dataset
+observationsLabel = 'WOA'
 
 [climatologyMapBGC_NO3]
 colormapNameResult = dense 
@@ -1681,9 +1684,10 @@ colormapNameDifference = balance
 normTypeResult = linear
 normArgsResult = {'vmin': 0, 'vmax': 35.0}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
+normArgsDifference = {'vmin': -5, 'vmax': 5} 
 units = 'mmol m$^{-3}$'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
+observationsLabel = 'WOA'
 
 [climatologyMapBGC_SiO3]
 colormapNameResult = dense 
@@ -1699,11 +1703,12 @@ filePrefix = 'timeMonthly_avg_ecosysTracers_'
 colormapNameResult = delta 
 colormapNameDifference = balance 
 normTypeResult = linear
-normArgsResult = {'vmin': -0.0001, 'vmax': 0.0001}
+normArgsResult = {'vmin': -5, 'vmax': 5}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
+normArgsDifference = {'vmin': 5, 'vmax': 5} 
 units = 'mmol C m$^{-3}$ m s$^{-1}$'
 filePrefix = 'timeMonthly_avg_'
+observationsLabel = 'SOM-FFNv2016'
 
 [climatologyMapBGC_O2]
 colormapNameResult = matter 
