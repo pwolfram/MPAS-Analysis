@@ -1648,7 +1648,7 @@ variables = ['NO3']
 # Times for comparison times (Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct,
 # Nov, Dec, JFM, AMJ, JAS, OND, ANN)
 # seasons = ['ANN', 'JFM', 'JAS']
-seasons = ['ANN']
+seasons = ['JFM']
 
 # the first year over which to average climatalogies
 startYear = 11
@@ -1686,6 +1686,7 @@ normTypeDifference = linear
 normArgsDifference = {'vmin': -5, 'vmax': 5} # Need to set
 units = 'mmol m$^{-3}$'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
+observationsLabel = 'WOA'
 
 [climatologyMapBGC_SiO3]
 colormapNameResult = dense 

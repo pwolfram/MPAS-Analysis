@@ -101,23 +101,21 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
             iselValues=iselValues)
         
         if refConfig is None:
-            # Need to make this more flexible, perhaps config title.
             refTitleLabel = 'Observations'
 
             observationsDirectory = build_config_full_path(
                 config, 'oceanObservations',
                 '{}Subdirectory'.format(afieldName))
 
-            # Need to make this general
             obsFileName = \
-                "{}/no3_1.0x1.0degree_ANN.nc" .format(
-                    observationsDirectory)
+                "{}/{}_1.0x1.0degree.nc" .format(
+                    observationsDirectory, afieldName)
             
-            # Could pass as 'fieldName.lower()'
-            refFieldName = 'NO3'
-            outFileLabel = 'no3WOA'
-            # Make general
-            galleryName = 'Observations: WOA' 
+            observationsLabel = config.getExpression(sectionName + '_' +
+                afieldName, 'observationsLabel', elementType=str)
+            refFieldName = afieldName 
+            outFileLabel = afieldName + observationsLabel 
+            galleryName = 'Observations: ' + observationsLabel 
 
             remapObservationsSubtask = RemapObservedBGCClimatology(
                 parentTask=self, seasons=seasons, fileName=obsFileName,
@@ -132,8 +130,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
             refTitleLabel = 'Ref: {}'.format(refRunName)
 
             refFieldName = ampasFieldName
-            # Change this
-            outFileLabel = 'no3'
+            outFileLabel = afieldName 
             diffTitleLabel = 'Main - Reference'
 
 
@@ -218,6 +215,7 @@ class RemapObservedBGCClimatology(RemapObservedClimatologySubtask): # {{{
   
         # Obs are pre-processed, so nothing needed to be done here.
         dsObs = xr.open_dataset(fileName)
+        dsObs.rename({'time': 'Time'}, inplace=True)
         return dsObs # }}}
 
     # }}}
