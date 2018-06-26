@@ -9,7 +9,6 @@ from __future__ import absolute_import, division, print_function, \
     unicode_literals
 
 import xarray as xr
-import datetime
 
 from mpas_analysis.shared import AnalysisTask
 
@@ -30,8 +29,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
 
     Authors
     -------
-    Phillip J. Wolfram, Luke Van Roekel, Xylar Asay-Davis, Milena Veneziani,
-    Riley X. Brady
+    Phillip J. Wolfram, Riley X. Brady
 
     """
     def __init__(self, config, mpasClimatologyTask, afieldName, ampasFieldName,
@@ -56,10 +54,10 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
         """
         # call the constructor from the base class (AnalysisTask)
         super(ClimatologyMapBGC, self).__init__(
-                config=config, taskName='climatologyMapBGC_' + afieldName,
-                componentName='ocean',
-                tags=['climatology', 'horizontalMap', 'BGC', afieldName])
-        
+            config=config, taskName='climatologyMapBGC_' + afieldName,
+            componentName='ocean',
+            tags=['climatology', 'horizontalMap', 'BGC', afieldName])
+
         # CO2 flux has no vertical levels, throws error if you try to select
         # any. Can add any other flux-like variables to this list.
         if afieldName not in ['CO2_gas_flux']:
@@ -75,7 +73,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
                                     'endYear')
         # Read in units (since BGC units are variable)
         units = config.getExpression(sectionName + '_' + afieldName, 'units',
-            elementType=str)
+                                     elementType=str)
 
         # read in what seasons we want to plot
         seasons = config.getExpression(sectionName, 'seasons')
@@ -122,9 +120,9 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
             galleryName = 'Observations: WOA' 
 
             remapObservationsSubtask = RemapObservedBGCClimatology(
-                    parentTask=self, seasons=seasons, fileName=obsFileName,
-                    outFilePrefix=refFieldName,
-                    comparisonGridNames=comparisonGridNames)
+                parentTask=self, seasons=seasons, fileName=obsFileName,
+                outFilePrefix=refFieldName,
+                comparisonGridNames=comparisonGridNames)
             self.add_subtask(remapObservationsSubtask)
             diffTitleLabel = 'Model - Observations'
         else:
@@ -149,18 +147,18 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
                                                     refConfig)
 
                 subtask.set_plot_info(
-                        outFileLabel=afieldName,
-                        fieldNameInTitle=afieldName,
-                        mpasFieldName=ampasFieldName,
-                        refFieldName=refFieldName,
-                        refTitleLabel=refTitleLabel,
-                        unitsLabel=units,
-                        imageCaption='Mean ' + afieldName,
-                        galleryGroup='Sea Surface Biogeochemistry',
-                        groupSubtitle=None,
-                        groupLink=afieldName,
-                        galleryName=afieldName,
-                        diffTitleLabel=None)
+                    outFileLabel=afieldName,
+                    fieldNameInTitle=afieldName,
+                    mpasFieldName=ampasFieldName,
+                    refFieldName=refFieldName,
+                    refTitleLabel=refTitleLabel,
+                    unitsLabel=units,
+                    imageCaption='Mean ' + afieldName,
+                    galleryGroup='Sea Surface Biogeochemistry',
+                    groupSubtitle=None,
+                    groupLink=afieldName,
+                    galleryName=afieldName,
+                    diffTitleLabel=diffTitleLabel)
 
                 self.add_subtask(subtask)
         # }}}
@@ -172,7 +170,7 @@ class RemapObservedBGCClimatology(RemapObservedClimatologySubtask): # {{{
     """
     # Authors
     # -------
-    # Xylar Asay-Davis, Riley X. Brady
+    # Riley X. Brady
 
     def get_observation_descriptor(self, fileName): # {{{
         '''
@@ -190,7 +188,7 @@ class RemapObservedBGCClimatology(RemapObservedClimatologySubtask): # {{{
         '''
         # Authors
         # -------
-        # Xylar Asay-Davis, Riley X. Brady
+        # Riley X. Brady
 
         # create a descriptor of the observation grid using the lat/lon
         # coordinates
@@ -216,8 +214,8 @@ class RemapObservedBGCClimatology(RemapObservedClimatologySubtask): # {{{
         '''
         # Authors
         # -------
-        # Xylar Asay-Davis, Riley X. Brady
-    
+        # Riley X. Brady
+  
         # Obs are pre-processed, so nothing needed to be done here.
         dsObs = xr.open_dataset(fileName)
         return dsObs # }}}
