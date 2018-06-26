@@ -267,6 +267,7 @@ argoSubdirectory = ARGO
 schmidtkoSubdirectory = Schmidtko
 woceSubdirectory = WOCE
 no3Subdirectory = BGC/NO3
+co2_gas_fluxSubdirectory = BGC/CO2_gas_flux
 
 # first and last year of SST observational climatology (preferably one of the
 # two ranges given below)
@@ -1642,18 +1643,16 @@ contourLevelsDifference = numpy.linspace(-0.2, 0.2, 9)
 # SiO3 : 'SiO3'
 # CO2 flux : 'CO2_gas_flux'
 # O2 : 'O2'
-#variables = ['PO4', 'NO3', 'SiO3', 'CO2_gas_flux', 'pH_3D', 'DIC', 'ALK', 'O2']
-variables = ['NO3']
+variables = ['PO4', 'NO3', 'SiO3', 'CO2_gas_flux', 'pH_3D', 'DIC', 'ALK', 'O2']
 
 # Times for comparison times (Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct,
 # Nov, Dec, JFM, AMJ, JAS, OND, ANN)
-# seasons = ['ANN', 'JFM', 'JAS']
-seasons = ['JFM']
+seasons = ['ANN', 'JFM', 'JAS']
 
-# the first year over which to average climatalogies
-startYear = 11
+# the first yearover which to average climatalogies
+startYear = 0 
 # the last year over which to average climatalogies
-endYear = 20
+endYear = 10 
 
 # comparison grid(s) ('latlon', 'antarctic') on which to plot analysis
 # comparisonGrids = ['latlon', 'antarctic']
@@ -1707,6 +1706,7 @@ normTypeDifference = linear
 normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
 units = 'mmol C m$^{-3}$ m s$^{-1}$'
 filePrefix = 'timeMonthly_avg_'
+observationsLabel = 'SOM-FFNv2016'
 
 [climatologyMapBGC_O2]
 colormapNameResult = matter 
