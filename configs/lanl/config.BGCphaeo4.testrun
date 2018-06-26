@@ -48,7 +48,7 @@ seaIceStreamsFileName = streams.cice
 ## etc.
 
 # directory where analysis should be written
-baseDirectory = /lustre/scratch3/turquoise/rileybrady/mpas_analysis_output/BGCtest
+baseDirectory = /dir/to/analysis/output
 
 # a list of analyses to generate.  Valid names can be seen by running:
 #   ./run_mpas_analysis --list
