@@ -215,7 +215,6 @@ class RemapObservedBGCClimatology(RemapObservedClimatologySubtask): # {{{
   
         # Obs are pre-processed, so nothing needed to be done here.
         dsObs = xr.open_dataset(fileName)
-        dsObs.rename({'time': 'Time'}, inplace=True)
         return dsObs # }}}
 
     # }}}
