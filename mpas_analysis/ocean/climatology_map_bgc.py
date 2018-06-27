@@ -91,7 +91,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
 
         # the variable mpasFieldName will be added to mpasClimatologyTask
         # along with the seasons.
-        remapClimatologySubtask = RemapMpasClimatologySubtask(
+        remapClimatologySubtask = RemapBGCClimatology(
             mpasClimatologyTask=mpasClimatologyTask,
             parentTask=self,
             climatologyName=afieldName,
@@ -99,7 +99,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
             comparisonGridNames=comparisonGridNames,
             seasons=seasons,
             iselValues=iselValues)
-        
+
         if refConfig is None:
             refTitleLabel = 'Observations'
 
@@ -110,12 +110,12 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
             obsFileName = \
                 "{}/{}_1.0x1.0degree.nc" .format(
                     observationsDirectory, afieldName)
-            
+
             observationsLabel = config.getExpression(sectionName + '_' +
                 afieldName, 'observationsLabel', elementType=str)
-            refFieldName = afieldName 
-            outFileLabel = afieldName + observationsLabel 
-            galleryName = 'Observations: ' + observationsLabel 
+            refFieldName = afieldName
+            outFileLabel = afieldName + observationsLabel
+            galleryName = 'Observations: ' + observationsLabel
 
             remapObservationsSubtask = RemapObservedBGCClimatology(
                 parentTask=self, seasons=seasons, fileName=obsFileName,
@@ -130,7 +130,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
             refTitleLabel = 'Ref: {}'.format(refRunName)
 
             refFieldName = ampasFieldName
-            outFileLabel = afieldName 
+            outFileLabel = afieldName
             diffTitleLabel = 'Main - Reference'
 
 
@@ -159,6 +159,50 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
 
                 self.add_subtask(subtask)
         # }}}
+    # }}}
+
+class RemapBGCClimatology(RemapMpasClimatologySubtask): # {{{
+    """
+    Apply unit conversions to native model output to align with observations.
+    """
+    # Authors
+    # -------
+    # Riley X. Brady
+
+    def customize_remapped_climatology(self, climatology, comparisonGridName,
+                                       season): # {{{
+        """
+        Currently, convert gas flux from native units to mol/m2/yr
+
+        Parameters
+        ----------
+        climatology : ``xarray.Dataset``
+            The MPAS climatology data set that has been remapped
+
+        comparisonGridNames : {'latlon', 'antarctic'}
+            The name of the comparison grid to use for remapping
+
+        season : str
+            The name of the season to be remapped
+
+        Returns
+        -------
+        climatology : ``xarray.Dataset``
+            The same data set with any custom fields added or modifications
+            made
+        """
+        # Authors
+        # -------
+        # Riley X. Brady
+
+        fieldName = self.variableList[0]
+        # Convert CO2 gas flux from native mmol/m2 m/s to mol/m2/yr for
+        # comparison to the SOM-FFN product
+        if 'CO2_gas_flux' in fieldName:
+            conversion = -1 * (60 * 60 * 24 * 365.25) / 10**3
+            climatology[fieldName] = conversion * climatology[fieldName]
+        return climatology # }}}
+
     # }}}
 
 class RemapObservedBGCClimatology(RemapObservedClimatologySubtask): # {{{
@@ -212,7 +256,7 @@ class RemapObservedBGCClimatology(RemapObservedClimatologySubtask): # {{{
         # Authors
         # -------
         # Riley X. Brady
-  
+
         # Obs are pre-processed, so nothing needed to be done here.
         dsObs = xr.open_dataset(fileName)
         return dsObs # }}}
