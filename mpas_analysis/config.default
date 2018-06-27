@@ -267,6 +267,9 @@ argoSubdirectory = ARGO
 schmidtkoSubdirectory = Schmidtko
 woceSubdirectory = WOCE
 no3Subdirectory = BGC/NO3
+po4Subdirectory = BGC/PO4
+sio3Subdirectory = BGC/SiO3
+o2Subdirectory = BGC/O2
 co2_gas_fluxSubdirectory = BGC/CO2_gas_flux
 
 # first and last year of SST observational climatology (preferably one of the
@@ -1670,7 +1673,7 @@ normArgsResult = {'vmin': 0, 'vmax': 2.5}
 # linear vs. log scaling for obs
 normTypeDifference = linear
 # Colorbar bounds for obs
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
+normArgsDifference = {'vmin': -1, 'vmax': 1} 
 # BGC property units
 units = 'mmol m$^{-3}$'
 # Prefix to variable name in MPAS-O output
@@ -1695,9 +1698,10 @@ colormapNameDifference = balance
 normTypeResult = linear
 normArgsResult = {'vmin': 0, 'vmax': 80}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
+normArgsDifference = {'vmin': -15, 'vmax': 15} 
 units = 'mmol m$^{-3}$'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
+observationsLabel = 'WOA'
 
 [climatologyMapBGC_CO2_gas_flux]
 colormapNameResult = delta 
@@ -1705,8 +1709,8 @@ colormapNameDifference = balance
 normTypeResult = linear
 normArgsResult = {'vmin': -5, 'vmax': 5}
 normTypeDifference = linear
-normArgsDifference = {'vmin': 5, 'vmax': 5} 
-units = 'mmol C m$^{-3}$ m s$^{-1}$'
+normArgsDifference = {'vmin': -5, 'vmax': 5} 
+units = 'mol m$^{-2}$ yr$^{-1}$'
 filePrefix = 'timeMonthly_avg_'
 observationsLabel = 'SOM-FFNv2016'
 
@@ -1714,11 +1718,12 @@ observationsLabel = 'SOM-FFNv2016'
 colormapNameResult = matter 
 colormapNameDifference = balance 
 normTypeResult = linear
-normArgsResult = {'vmin': 200, 'vmax': 400}
+normArgsResult = {'vmin': 2, 'vmax': 8}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
-units = 'mmol m$^{-3}$'
+normArgsDifference = {'vmin': -2, 'vmax': 2} # Need to set
+units = 'mL/L'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
+observationsLabel = 'WOA'
 
 [climatologyMapBGC_pH_3D]
 colormapNameResult = PuBuGn_r

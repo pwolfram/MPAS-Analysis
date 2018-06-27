@@ -6,6 +6,7 @@ Main Authors
 
 Contributors
 ============
+* Riley X. Brady
 * Charles Doutriaux
 * Jeremy Fyke
 * Matthew Hoffman
