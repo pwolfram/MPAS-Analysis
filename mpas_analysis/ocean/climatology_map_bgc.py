@@ -201,6 +201,10 @@ class RemapBGCClimatology(RemapMpasClimatologySubtask): # {{{
         if 'CO2_gas_flux' in fieldName:
             conversion = -1 * (60 * 60 * 24 * 365.25) / 10**3
             climatology[fieldName] = conversion * climatology[fieldName]
+        # Convert O2 from mmol/m3 to mL/L for comparison to WOA product
+        elif 'O2' in fieldName:
+            conversion = 22.391 / 10**3
+            climatology[fieldName] = conversion * climatology[fieldName]
         return climatology # }}}
 
     # }}}
@@ -257,7 +261,6 @@ class RemapObservedBGCClimatology(RemapObservedClimatologySubtask): # {{{
         # -------
         # Riley X. Brady
 
-        # Obs are pre-processed, so nothing needed to be done here.
         dsObs = xr.open_dataset(fileName)
         return dsObs # }}}
 
