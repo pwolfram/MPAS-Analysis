@@ -777,7 +777,66 @@
       woce
     </nameInDocs>
   </observation>
-
+  
+  <observation>
+    <name>
+      World Ocean Atlas v2
+    </name>
+    <component>
+      ocean
+    </component>
+    <description>
+      The World Ocean Atlas (WOA) is a data product of the Ocean Climate 
+      Laboratory of the National Oceanographic Data Center. It consists of 
+      objectively analyzed climatological mean fields at 1 degree spatial
+      resolution. The climatology is based on all data that are available from
+      the early 1900s to present. 
+    </description>
+    <source>
+      - [World Ocean Atlas v2 Website](https://www.nodc.noaa.gov/OC5/woa13/) 
+    </source>
+    <releasePolicy>
+      Cite the World Ocean Atlas 2013 for the data sets used (see references).
+      The World Ocean Atlas 2013 (and all previous versions) are available free
+      of charge. 
+    </releasePolicy>
+    <references>
+      - [Oxygen: Garcia et al. 2014a](https://data.nodc.noaa.gov/woa/WOA13/DOC/woa13_vol3.pdf)
+      - [Nutrients: Garcia et al. 2014b](https://data.nodc.noaa.gov/woa/WOA13/DOC/woa13_vol4.pdf)
+    </references>
+    <bibtex>
+      @article{garcia64volume,
+      title={Volume 3: dissolved oxygen, apparent oxygen utilization, and oxygen saturation, edited by: Levitus},
+      author={Garcia, HE and Locarnini, RA and Boyer, TP and Antonov, JI},
+      journal={S., NOAA Atlas NESDIS},
+      volume={64}
+      }
+      @article{garciaNutrients}
+      title={Volume 4: dissolved inorganic nutrients (phosphate, nitrate, silicate), edited by: Levitus},
+      author={Garcia, HE and Locarnini, RA and Boyer, TP, and Atonov, JI},
+      journal={S., NOAA Atlas NESDIS},
+      volume={64}
+      }
+    </bibtex>
+    <dataUrls>
+      - https://data.nodc.noaa.gov/woa/WOA13/DATA/nitrate/netcdf/all/1.00/
+      - https://data.nodc.noaa.gov/woa/WOA13/DATA/phosphate/netcdf/all/1.00/
+      - https://data.nodc.noaa.gov/woa/WOA13/DATA/silicate/netcdf/all/1.00/
+      - https://data.nodc.noaa.gov/woa/WOA13/DATA/oxygen/netcdf/all/1.00/
+    </dataUrls>
+    <preprocessing>
+      preprocess_observations/preprocess_BGC_data.py
+    </preprocessing>
+    <tasks>
+      - climatologyMapBGC
+    </tasks>
+    <subdirectory>
+      Ocean/BGC
+    </subdirectory>
+    <nameInDocs>
+      woa
+    </nameInDocs>
+  </observation>
 <!--
   <observation>
     <name>
