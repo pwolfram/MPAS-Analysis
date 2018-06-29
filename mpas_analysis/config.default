@@ -273,6 +273,7 @@ o2Subdirectory = BGC/O2
 co2_gas_fluxSubdirectory = BGC/CO2_gas_flux
 dicSubdirectory = BGC/DIC
 alkSubdirectory = BGC/ALK
+ph_3dSubdirectory = BGC/pH_3D
 
 # first and last year of SST observational climatology (preferably one of the
 # two ranges given below)
@@ -1730,7 +1731,7 @@ filePrefix = 'timeMonthly_avg_ecosysTracers_'
 observationsLabel = 'WOA'
 
 [climatologyMapBGC_pH_3D]
-colormapNameResult = PuBuGn_r
+colormapNameResult = PuBuGn
 colormapNameDifference = balance 
 normTypeResult = linear
 normArgsResult = {'vmin': 8, 'vmax': 8.2}
@@ -1738,6 +1739,7 @@ normTypeDifference = linear
 normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
 units = ''
 filePrefix = 'timeMonthly_avg_ecosys_diag_'
+observationsLabel = 'GLODAPv2'
 
 [climatologyMapBGC_DIC]
 colormapNameResult = YlGnBu 

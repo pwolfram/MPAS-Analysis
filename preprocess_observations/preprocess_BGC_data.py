@@ -54,15 +54,16 @@ def process_GLODAP(inDir, outDir):
 
     # Loop through files and delete if they aren't DIC, Alk
     print('Deleting unneeded observations...')
-    keep_vars = ['TCO2', 'TAlk']
+    keep_vars = ['TCO2', 'TAlk', 'pHtsinsitutp']
     for filename in os.listdir(inDir + '/GLODAPv2.2016b_MappedClimatologies'):
         if not any(s in filename for s in keep_vars):
             os.remove(inDir + '/GLODAPv2.2016b_MappedClimatologies/' +
                       filename)
 
     # Edit to align with MPAS-Analysis standards
-    updated_name = {'TCO2': 'DIC', 'TAlk': 'ALK', 'PI_TCO2': 'DIC'}
-    for v in ['TCO2', 'TAlk', 'PI_TCO2']:
+    updated_name = {'TCO2': 'DIC', 'TAlk': 'ALK', 'PI_TCO2': 'DIC',
+                    'pHtsinsitutp': 'pH_3D'}
+    for v in ['TCO2', 'TAlk', 'PI_TCO2', 'pHtsinsitutp']:
         print("Processing and saving " + v + "...")
         filename = (inDir + '/GLODAPv2.2016b_MappedClimatologies/' +
                     'GLODAPv2.2016b.' + v + '.nc')
