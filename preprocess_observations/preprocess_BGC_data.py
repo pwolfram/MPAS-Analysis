@@ -61,7 +61,7 @@ def process_GLODAP(inDir, outDir):
                       filename)
 
     # Edit to align with MPAS-Analysis standards
-    updated_name = {'TCO2': 'DIC', 'TAlk': 'ALK', 'PI_TCO2': 'PI_DIC'}
+    updated_name = {'TCO2': 'DIC', 'TAlk': 'ALK', 'PI_TCO2': 'DIC'}
     for v in ['TCO2', 'TAlk', 'PI_TCO2']:
         print("Processing and saving " + v + "...")
         filename = (inDir + '/GLODAPv2.2016b_MappedClimatologies/' +

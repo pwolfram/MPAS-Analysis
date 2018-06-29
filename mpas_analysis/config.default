@@ -272,6 +272,7 @@ sio3Subdirectory = BGC/SiO3
 o2Subdirectory = BGC/O2
 co2_gas_fluxSubdirectory = BGC/CO2_gas_flux
 dicSubdirectory = BGC/DIC
+alkSubdirectory = BGC/ALK
 
 # first and last year of SST observational climatology (preferably one of the
 # two ranges given below)
@@ -1659,8 +1660,10 @@ startYear = 0
 endYear = 10 
 
 # comparison grid(s) ('latlon', 'antarctic') on which to plot analysis
-# comparisonGrids = ['latlon', 'antarctic']
 comparisonGrids = ['latlon']
+
+# Whether to compare to preindustrial observations that are available.
+preindustrial = False
 
 [climatologyMapBGC_PO4]
 # Colormap for climatology
@@ -1753,7 +1756,7 @@ colormapNameDifference = balance
 normTypeResult = linear
 normArgsResult = {'vmin': 2150, 'vmax': 2450}
 normTypeDifference = linear
-normArgsDifference = {'vmin': 100, 'vmax': 100} 
+normArgsDifference = {'vmin': -100, 'vmax': 100} 
 units = 'meq m$^{-3}$'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
 observationsLabel = 'GLODAPv2'
