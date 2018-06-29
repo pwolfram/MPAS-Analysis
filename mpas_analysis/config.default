@@ -1731,7 +1731,7 @@ filePrefix = 'timeMonthly_avg_ecosysTracers_'
 observationsLabel = 'WOA'
 
 [climatologyMapBGC_pH_3D]
-colormapNameResult = PuBuGn
+colormapNameResult = PuBuGn_r
 colormapNameDifference = balance 
 normTypeResult = linear
 normArgsResult = {'vmin': 8, 'vmax': 8.2}
