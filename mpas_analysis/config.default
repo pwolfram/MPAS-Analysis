@@ -271,6 +271,7 @@ po4Subdirectory = BGC/PO4
 sio3Subdirectory = BGC/SiO3
 o2Subdirectory = BGC/O2
 co2_gas_fluxSubdirectory = BGC/CO2_gas_flux
+dicSubdirectory = BGC/DIC
 
 # first and last year of SST observational climatology (preferably one of the
 # two ranges given below)
@@ -1720,7 +1721,7 @@ colormapNameDifference = balance
 normTypeResult = linear
 normArgsResult = {'vmin': 2, 'vmax': 8}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -2, 'vmax': 2} # Need to set
+normArgsDifference = {'vmin': -2, 'vmax': 2} 
 units = 'mL/L'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
 observationsLabel = 'WOA'
@@ -1741,9 +1742,10 @@ colormapNameDifference = balance
 normTypeResult = linear
 normArgsResult = {'vmin': 1900, 'vmax': 2300}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # Need to set
+normArgsDifference = {'vmin': -100, 'vmax': 100} 
 units = 'mmol m$^{-3}$'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
+observationsLabel = 'GLODAPv2'
 
 [climatologyMapBGC_ALK]
 colormapNameResult = PuBuGn 
@@ -1751,9 +1753,10 @@ colormapNameDifference = balance
 normTypeResult = linear
 normArgsResult = {'vmin': 2150, 'vmax': 2450}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -0.5, 'vmax': 0.5} # need to set
+normArgsDifference = {'vmin': 100, 'vmax': 100} 
 units = 'meq m$^{-3}$'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
+observationsLabel = 'GLODAPv2'
 
 [climatologyMapSeaIceConcNH]
 ## options related to plotting horizontally remapped climatologies of

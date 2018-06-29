@@ -122,7 +122,15 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
                 outFilePrefix=refFieldName,
                 comparisonGridNames=comparisonGridNames)
             self.add_subtask(remapObservationsSubtask)
+            
             diffTitleLabel = 'Model - Observations'
+
+            # Certain BGC observations are only available at annual resolution.
+            # Need to ensure that the user is aware that their seasonal or 
+            # monthly climatology is being compared to ANN. Currently,
+            # this is just with GLODAP.
+            if observationsLabel is 'GLODAPv2':
+                diffTitleLabel += ' (Compared to ANN)'
         else:
             remapObservationsSubtask = None
             refRunName = refConfig.get('runs', 'mainRunName')
