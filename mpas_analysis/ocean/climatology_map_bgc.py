@@ -75,9 +75,9 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
                   'True' under the ClimatologyMapBGC config section.
                   """)
 
-        # CO2 flux has no vertical levels, throws error if you try to select
-        # any. Can add any other flux-like variables to this list.
-        if afieldName not in ['CO2_gas_flux']:
+        # CO2 flux and pCO2 has no vertical levels, throws error if you try to 
+        # select any. Can add any other flux-like variables to this list.
+        if afieldName not in ['CO2_gas_flux', 'pCO2surface']:
             iselValues = {'nVertLevels': 0}
         else:
             iselValues = None
@@ -103,14 +103,25 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
         if len(comparisonGridNames) == 0:
             raise ValueError('config section {} does not contain valid list '
                              'of comparison grids'.format(sectionName))
+        
+        # Pass multiple variables if working with Chlorophyll to sum 
+        # them to total chlorophyll
+        if 'Chl' in afieldName:
+            print('TEST WORKS TEST WORKS TEST WORKS')
+            prefix = 'timeMonthly_avg_ecosysTracers_'
+            variableList = [prefix + 'spChl', prefix + 'diatChl', 
+                            prefix + 'diazChl', prefix + 'phaeoChl']
+            print(variableList)
+            plotField = 'Chl'
+        else:
+            variableList = [ampasFieldName]
+            plotField = ampasFieldName
 
-        # the variable mpasFieldName will be added to mpasClimatologyTask
-        # along with the seasons.
         remapClimatologySubtask = RemapBGCClimatology(
             mpasClimatologyTask=mpasClimatologyTask,
             parentTask=self,
             climatologyName=afieldName,
-            variableList=[ampasFieldName],
+            variableList=variableList,
             comparisonGridNames=comparisonGridNames,
             seasons=seasons,
             iselValues=iselValues)
@@ -129,6 +140,9 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
             if preindustrial and 'DIC' in afieldName: 
                 obsFileName = \
                     "{}/PI_DIC_1.0x1.0degree.nc".format(observationsDirectory)
+            elif 'Chl' in afieldName:
+                obsFileName = \
+                    "{}/Chl_SeaWIFS.nc".format(observationsDirectory)
             else:
                 obsFileName = \
                     "{}/{}_1.0x1.0degree.nc" .format(
@@ -139,7 +153,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
             refFieldName = afieldName
             outFileLabel = afieldName + observationsLabel
             galleryName = 'Observations: ' + observationsLabel
-
+            
             remapObservationsSubtask = RemapObservedBGCClimatology(
                 parentTask=self, seasons=seasons, fileName=obsFileName,
                 outFilePrefix=refFieldName,
@@ -177,7 +191,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
                 subtask.set_plot_info(
                     outFileLabel=afieldName,
                     fieldNameInTitle=afieldName,
-                    mpasFieldName=ampasFieldName,
+                    mpasFieldName=plotField,
                     refFieldName=refFieldName,
                     refTitleLabel=refTitleLabel,
                     unitsLabel=units,
@@ -200,10 +214,45 @@ class RemapBGCClimatology(RemapMpasClimatologySubtask): # {{{
     # -------
     # Riley X. Brady
 
+    def customize_masked_climatology(self, climatology, season): # {{{
+        """
+        Sum over all phytoplankton chlorophyll to create total chlorophyll
+
+        Parameters
+        ----------
+        climatology : ``xarray.Dataset`` object
+            the climatology data set
+        season : str
+            The name of the season to be masked
+        Returns
+        -------
+        climatology : ``xarray.Dataset`` object
+            the modified climatology data set
+        """
+        # Authors
+        # -------
+        # Riley X. Brady
+        climatology = super(RemapBGCClimatology,
+                            self).customize_masked_climatology(climatology,
+                                                               season)
+
+        if 'timeMonthly_avg_ecosysTracers_spChl' in climatology:
+            print('CHLOROPHYLL DETECTED')
+            spChl = climatology.timeMonthly_avg_ecosysTracers_spChl
+            diatChl = climatology.timeMonthly_avg_ecosysTracers_diatChl
+            diazChl = climatology.timeMonthly_avg_ecosysTracers_diazChl
+            phaeoChl = climatology.timeMonthly_avg_ecosysTracers_phaeoChl
+            climatology['Chl'] = spChl + diatChl + diazChl + phaeoChl
+            climatology.Chl.units = 'mg m$^{-3}$'
+            climatology.Chl.description = 'Sum of all phyto. chlorophyll'
+
+        return climatology # }}}
+
     def customize_remapped_climatology(self, climatology, comparisonGridName,
                                        season): # {{{
         """
-        Currently, convert gas flux from native units to mol/m2/yr
+        Convert CO2 gas flux from native units to mol/m2/yr,
+        Convert dissolved O2 from native units to mL/L
 
         Parameters
         ----------

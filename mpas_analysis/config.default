@@ -275,6 +275,7 @@ dicSubdirectory = BGC/DIC
 alkSubdirectory = BGC/ALK
 ph_3dSubdirectory = BGC/pH_3D
 pco2surfaceSubdirectory = BGC/pCO2surface
+chlSubdirectory = BGC/Chl
 
 # first and last year of SST observational climatology (preferably one of the
 # two ranges given below)
@@ -1764,16 +1765,28 @@ units = 'meq m$^{-3}$'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
 observationsLabel = 'GLODAPv2'
 
-[climatologyMappCO2surface]
+[climatologyMapBGC_pCO2surface]
 colormapNameResult = viridis 
 colormapNameDifference = balance 
 normTypeResult = linear
 normArgsResult = {'vmin': 300, 'vmax': 450}
 normTypeDifference = linear
-normArgsDifference = {'vmin': -500, 'vmax': 50} 
+normArgsDifference = {'vmin': -50, 'vmax': 50} 
 units = 'ppmv'
 filePrefix = 'timeMonthly_avg_ecosys_diag_'
 observationsLabel = 'SOM-FFNv2016'
+
+[climatologyMapBGC_Chl]
+colormapNameResult = viridis 
+colormapNameDifference = balance 
+normTypeResult = log
+normArgsResult = {'vmin': 0.01, 'vmax': 20}
+normTypeDifference = symLog 
+normArgsDifference = {'vmin': -10, 'vmax': 10} 
+units = 'mg m$^{-3}$'
+filePrefix = 'timeMonthly_avg_ecosysTracers_'
+observationsLabel = 'SeaWIFS'
+
 
 
 [climatologyMapSeaIceConcNH]
