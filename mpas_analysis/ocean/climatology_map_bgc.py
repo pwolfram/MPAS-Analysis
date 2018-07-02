@@ -107,11 +107,9 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
         # Pass multiple variables if working with Chlorophyll to sum 
         # them to total chlorophyll
         if 'Chl' in afieldName:
-            print('TEST WORKS TEST WORKS TEST WORKS')
             prefix = 'timeMonthly_avg_ecosysTracers_'
             variableList = [prefix + 'spChl', prefix + 'diatChl', 
                             prefix + 'diazChl', prefix + 'phaeoChl']
-            print(variableList)
             plotField = 'Chl'
         else:
             variableList = [ampasFieldName]
