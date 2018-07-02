@@ -106,7 +106,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
         
         # Pass multiple variables if working with Chlorophyll to sum 
         # them to total chlorophyll
-        if 'Chl' in afieldName:
+        if afieldName == 'Chl': 
             prefix = 'timeMonthly_avg_ecosysTracers_'
             variableList = [prefix + 'spChl', prefix + 'diatChl', 
                             prefix + 'diazChl', prefix + 'phaeoChl']
@@ -135,10 +135,10 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
             
             # If user wants to compare to preindustrial data, make sure that
             # we load in the right DIC field.
-            if preindustrial and 'DIC' in afieldName: 
+            if preindustrial and afieldName == 'DIC':
                 obsFileName = \
                     "{}/PI_DIC_1.0x1.0degree.nc".format(observationsDirectory)
-            elif 'Chl' in afieldName:
+            elif afieldName == 'Chl':
                 obsFileName = \
                     "{}/Chl_SeaWIFS.nc".format(observationsDirectory)
             else:
@@ -164,7 +164,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
             # Need to ensure that the user is aware that their seasonal or 
             # monthly climatology is being compared to ANN. Currently,
             # this is just with GLODAP.
-            if 'GLODAPv2' in observationsLabel:
+            if observationsLabel == 'GLODAPv2':
                 diffTitleLabel += ' (Compared to ANN)'
         else:
             remapObservationsSubtask = None
@@ -235,14 +235,18 @@ class RemapBGCClimatology(RemapMpasClimatologySubtask): # {{{
                                                                season)
 
         if 'timeMonthly_avg_ecosysTracers_spChl' in climatology:
-            print('CHLOROPHYLL DETECTED')
             spChl = climatology.timeMonthly_avg_ecosysTracers_spChl
             diatChl = climatology.timeMonthly_avg_ecosysTracers_diatChl
             diazChl = climatology.timeMonthly_avg_ecosysTracers_diazChl
             phaeoChl = climatology.timeMonthly_avg_ecosysTracers_phaeoChl
             climatology['Chl'] = spChl + diatChl + diazChl + phaeoChl
-            climatology.Chl.units = 'mg m$^{-3}$'
-            climatology.Chl.description = 'Sum of all phyto. chlorophyll'
+            climatology.Chl.attrs['units'] = 'mg m$^{-3}$'
+            climatology.Chl.attrs['description'] = 'Sum of all PFT chlorophyll'
+            climatology.drop(['timeMonthly_avg_ecosysTracers_spChl',
+                              'timeMonthly_avg_ecosysTracers_diatChl',
+                              'timeMonthly_avg_ecosysTracers_diazChl',
+                              'timeMonthly_avg_ecosysTracers_phaeoChl'])
+
 
         return climatology # }}}
 

@@ -1651,7 +1651,7 @@ contourLevelsDifference = numpy.linspace(-0.2, 0.2, 9)
 # SiO3 : 'SiO3'
 # CO2 flux : 'CO2_gas_flux'
 # O2 : 'O2'
-variables = ['PO4', 'NO3', 'SiO3', 'CO2_gas_flux', 'pH_3D', 'DIC', 'ALK', 'O2']
+variables = ['PO4', 'NO3', 'SiO3', 'CO2_gas_flux', 'pH_3D', 'DIC', 'ALK', 'O2', 'pCO2surface', 'Chl']
 
 # Times for comparison times (Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct,
 # Nov, Dec, JFM, AMJ, JAS, OND, ANN)
@@ -1663,7 +1663,7 @@ startYear = 0
 endYear = 10 
 
 # comparison grid(s) ('latlon', 'antarctic') on which to plot analysis
-comparisonGrids = ['latlon']
+comparisonGrids = ['latlon', 'antarctic']
 
 # Whether to compare to preindustrial observations that are available.
 preindustrial = False
@@ -1782,7 +1782,7 @@ colormapNameDifference = balance
 normTypeResult = log
 normArgsResult = {'vmin': 0.01, 'vmax': 20}
 normTypeDifference = symLog 
-normArgsDifference = {'vmin': -10, 'vmax': 10} 
+normArgsDifference = {'linthresh': 0.1, 'vmin': -10, 'vmax': 10} 
 units = 'mg m$^{-3}$'
 filePrefix = 'timeMonthly_avg_ecosysTracers_'
 observationsLabel = 'SeaWIFS'
