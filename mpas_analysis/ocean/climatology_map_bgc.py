@@ -150,7 +150,12 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
                 afieldName, 'observationsLabel', elementType=str)
             refFieldName = afieldName
             outFileLabel = afieldName + observationsLabel
-            galleryName = 'Observations: ' + observationsLabel
+           
+            galleryLabel = config.getExpression(sectionName + '_' + afieldName,
+                                                'galleryLabel',
+                                                elementType=str)
+            galleryName = (galleryLabel + ' (Compared to ' + observationsLabel 
+                           + ')') 
             
             remapObservationsSubtask = RemapObservedBGCClimatology(
                 parentTask=self, seasons=seasons, fileName=obsFileName,
@@ -197,7 +202,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
                     galleryGroup='Sea Surface Biogeochemistry',
                     groupSubtitle=None,
                     groupLink=afieldName,
-                    galleryName=afieldName,
+                    galleryName=galleryName,
                     diffTitleLabel=diffTitleLabel)
 
                 self.add_subtask(subtask)
