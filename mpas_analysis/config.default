@@ -277,15 +277,6 @@ ph_3dSubdirectory = BGC/pH_3D
 pco2surfaceSubdirectory = BGC/pCO2surface
 chlSubdirectory = BGC/Chl
 
-# first and last year of SST observational climatology (preferably one of the
-# two ranges given below)
-# values for preindustrial
-sstClimatologyStartYear = 1870
-sstClimatologyEndYear = 1900
-# alternative values for present day
-#sstClimatologyStartYear = 1990
-#sstClimatologyEndYear = 2011
-
 # interpolation order for observations. Likely values are
 #   'bilinear', 'neareststod' (nearest neighbor) or 'conserve'
 interpolationMethod = bilinear
