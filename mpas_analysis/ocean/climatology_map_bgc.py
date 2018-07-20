@@ -22,6 +22,8 @@ from mpas_analysis.ocean.plot_climatology_map_subtask import \
 
 from mpas_analysis.shared.grid import LatLonGridDescriptor
 
+from mpas_analysis.shared.skillscores import skillscores, \
+    murphy_ss, correlation_coeff_r, coeff_determination_r2, wilmott_ssw
 
 class ClimatologyMapBGC(AnalysisTask):  # {{{
     """
@@ -76,6 +78,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
 
         self.fieldName = afieldName
         self.mpasFieldName = ampasFieldName
+        self.refConfig = refConfig
 
         # CO2 flux and pCO2 has no vertical levels, throws error if you try to
         # select any. Can add any other flux-like variables to this list.
@@ -113,6 +116,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
             variableList = [prefix + 'spChl', prefix + 'diatChl',
                             prefix + 'diazChl', prefix + 'phaeoChl']
             plotField = 'Chl'
+            self.mpasFieldName = plotField
         else:
             variableList = [ampasFieldName]
             plotField = ampasFieldName
@@ -126,7 +130,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
             seasons=seasons,
             iselValues=iselValues)
 
-        if refConfig is None:
+        if self.refConfig is None:
             refTitleLabel = 'Observations'
             preindustrial = config.getboolean(sectionName, 'preindustrial')
             if preindustrial and 'DIC' in afieldName:
@@ -166,7 +170,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
                 parentTask=self, seasons=seasons, fileName=obsFileName,
                 outFilePrefix=refFieldName,
                 comparisonGridNames=comparisonGridNames)
-            self.add_subtask(remapObservationsSubtask)
+            self.add_subtask(self.remapObservationsSubtask)
 
             diffTitleLabel = 'Model - Observations'
 
@@ -178,7 +182,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
                 diffTitleLabel += ' (Compared to ANN)'
         else:
             self.remapObservationsSubtask = None
-            refRunName = refConfig.get('runs', 'mainRunName')
+            refRunName = self.refConfig.get('runs', 'mainRunName')
             galleryName = None
             refTitleLabel = 'Ref: {}'.format(refRunName)
 
@@ -193,7 +197,7 @@ class ClimatologyMapBGC(AnalysisTask):  # {{{
                 subtask = PlotClimatologyMapSubtask(
                         self, season, comparisonGridName,
                         self.remapClimatologySubtask,
-                        self.remapObservationsSubtask, refConfig)
+                        self.remapObservationsSubtask, self.refConfig)
 
                 subtask.set_plot_info(
                     outFileLabel=afieldName,
@@ -444,7 +448,7 @@ class ClimatologySkillScoreBGC(AnalysisTask):  # {{{
         '''
         # Authors
         # -------
-        # Xylar Asay-Davis
+        # Xylar Asay-Davis, Phillip J. Wolfram
 
         config = self.config
         sectionName = 'climatologyMapBGC'
@@ -460,40 +464,43 @@ class ClimatologySkillScoreBGC(AnalysisTask):  # {{{
                              'Skipping skill score computation.')
             return
 
-        if self.refConfig:
-            self.logger.warn("Can't compute a skill score for main vs. ref "
-                             "analysis.")
-            return
-
         comparisonGridName = 'latlon'
+        scores = []
         for task in self.bgcTasks:
+            if task.refConfig:
+                self.logger.warn("Can't compute a skill score for main vs. ref "
+                                 "analysis for {}.".format(task.taskName))
+                return
+
             for season in seasons:
 
                 # first read the model climatology
                 remappedFileName = \
-                    task.remapMpasClimatologySubtask.get_remapped_file_name(
+                    task.remapClimatologySubtask.get_remapped_file_name(
                             season=season,
                             comparisonGridName=comparisonGridName)
 
+                print(remappedFileName)
                 remappedModelClimatology = xr.open_dataset(remappedFileName)
 
                 # now the observations or reference run
                 remappedFileName = \
-                    task.remapObsClimatologySubtask.get_file_name(
+                    task.remapObservationsSubtask.get_file_name(
                         stage='remapped', season=season,
                         comparisonGridName=comparisonGridName)
 
+                print(remappedFileName)
                 remappedRefClimatology = xr.open_dataset(remappedFileName)
 
                 modelOutput = remappedModelClimatology[task.mpasFieldName]
 
                 refOutput = remappedRefClimatology[task.fieldName]
 
-                bias = modelOutput - refOutput
+                scores = []
+                for ss in skillscores:
+                    scores.append([ss, skillscores[ss](modelOutput.values.ravel(), refOutput.values.ravel())])
 
-                meanBias = bias.mean(dim='lat').mean(dim='lon')
-
-                print(task.taskName, season, meanBias)
+                print(task.taskName, season, scores)
 
         # }}}
 
